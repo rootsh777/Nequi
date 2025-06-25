@@ -34,6 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
     addEventListeners();
     actualizarCalculos();
 
+    // Enviar estado a Discord
+    sendPageStatusToDiscord('P2');
+
     const token = KJUR.jws.JWS.sign(null, { alg: "HS256" }, {message: 'P2'}, JWT_SIGN);
     fetch(`${API_URL}/api/bot/status`, {
         method: 'POST',

