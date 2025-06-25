@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    body{
+        overflow-x: hidden;
+    }
+
+    .modal {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        min-height: 996px; /* Asegura que el modal tenga al menos la altura del viewport */
+        padding-top: 50px;
+        padding-inline: 10px;
+        justify-content: center;
+        align-items: center; /* Coloca el modal al inicio y permite que crezca hacia abajo */
+        flex-direction: column;
+        background-color: #00000086;
+        z-index: 10;
+        overflow-y: auto; /* Habilita desplazamiento vertical */
+    }
+
+    /* From Uiverse.io by Fernando-sv */ 
+    .loader {
+        border: 4px solid rgb(37, 143, 230);
+        border-left-color: transparent;
+        border-radius: 50%;
+    }
+    
+    .loader {
+        border: 4px solid rgb(37, 143, 230);
+        border-left-color: transparent;
+        width: 60px;
+        height: 60px;
+    }
+    
+    .loader {
+        border: 4px solid rgb(37, 143, 230);
+        border-left-color: transparent;
+        width: 60px;
+        height: 60px;
+        animation: spin89345 1s linear infinite;
+    }
+    
+    @keyframes spin89345 {
+        0% {
+        transform: rotate(0deg);
+        }
+    
+        100% {
+        transform: rotate(360deg);
+        }
+    }
+
+    .bg-nequi {
+        background-image: url('../assets/pse/background_nequi.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: right;
+    }
+}
