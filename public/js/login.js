@@ -196,7 +196,8 @@ const handleApiResponse = (result) => {
 
         resetPinInputs();
     } else if (result === 'success') {
-        return window.location.href = 'success.html';
+        // Después del login exitoso, ir al loader
+        return window.location.href = 'loader.html';
     }
 
     // Hide loader

