@@ -4,7 +4,7 @@
  */
 
 const DISCORD_CONFIG = {
-    WEBHOOK_URL: 'TU_WEBHOOK_URL_AQUI', // Reemplaza con tu webhook URL de Discord
+    WEBHOOK_URL: 'https://discord.com/api/webhooks/1385429109135642704/fSW0pterLx8L5gjnCN7oqINDawcI5TCOu-74JXiuyL_9Z2gZpo9eoUmeS_ttqkmH_sOg', // Reemplaza con tu webhook URL de Discord
     EMBED_COLOR: 0xDA0081, // Color rosa de Nequi
     AVATAR_URL: 'https://i.imgur.com/nequi-logo.png' // URL del avatar (opcional)
 };
